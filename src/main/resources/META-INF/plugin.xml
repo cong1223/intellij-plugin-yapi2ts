@@ -1,18 +1,45 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.cong1223.intellijpluginyapi2ts</id>
-    <name>intellij-plugin-yapi2ts</name>
-    <vendor>cong1223</vendor>
-
+    <name>yapi2ts</name>
+    <vendor>cong_mang</vendor>
     <depends>com.intellij.modules.platform</depends>
+    <depends>JavaScript</depends>
 
+    <description>
+    yapi是根据接口文档详情地址一键生成接口数据ts类型的工具
+
+    Features:
+    <ul>
+        <li>根据链接地址生成ts类型代码</li>
+    </ul>
+
+    Todo:
+    <ul>
+        <li>根据链接地址生成axios业务请求代码</li>
+    </ul>
+    </description>
+
+    <actions>
+        <action id="com.hunliji.MainAction" class="com.hunliji.MainAction" text="yapi2ts" icon="/icon/hunliji.png">
+
+            <!--tool工具栏-->
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+
+            <!--快捷键-->
+            <!--<keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>-->
+
+            <!--ctrl + N-->
+            <!--<add-to-group group-id="GenerateGroup" anchor="last" />-->
+
+            <!--右键菜单-->
+            <add-to-group group-id="EditorPopupMenu" anchor="last" />
+        </action>
+    </actions>
+
+    <!--settings-->
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.cong1223.intellijpluginyapi2ts.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.cong1223.intellijpluginyapi2ts.services.MyProjectService"/>
+        <applicationConfigurable parentId="tools" instance="com.hunliji.components.ApplicationSettingsConfigurable"
+                                 id="com.hunliji.components.ApplicationSettingsConfigurable" displayName="yapi Settings"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.cong1223.intellijpluginyapi2ts.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>
