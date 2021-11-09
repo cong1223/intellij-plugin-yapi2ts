@@ -1,6 +1,9 @@
 package com.hunliji.utils;
+
 import com.intellij.psi.PsiFile;
+
 import java.util.*;
+
 import static com.hunliji.utils.StringUtils.captureStringLeaveUnderscore;
 
 
@@ -39,7 +42,7 @@ public class Json2ts {
             if (json.get(key) instanceof JSONObject) {
                 JSONObject jsonObject = json.getJSONObject(key);
                 //if (jsonObject.length() != 0) {
-                    objectKeys.add(key);
+                objectKeys.add(key);
                 //}
             } else if (json.get(key) instanceof JSONArray) {
                 JSONArray jsonArray = json.getJSONArray(key);
@@ -100,7 +103,7 @@ public class Json2ts {
             if (json.get(k) instanceof JSONObject) {
                 JSONObject jsonObject = json.getJSONObject(k);
                 //if (jsonObject.length() != 0) {
-                    objectKeys.add(k);
+                objectKeys.add(k);
                 //}
             } else if (json.get(k) instanceof JSONArray) {
                 JSONArray jsonArray = json.getJSONArray(k);
@@ -129,7 +132,7 @@ public class Json2ts {
      * @return
      */
     private static String getPsiClassName(PsiFile psiFile) {
-        return psiFile.getName().replaceAll("\\.ts$", "").replaceAll("\\.js$", "");
+        return psiFile.getName().replaceAll("\\.ts$", "").replaceAll("\\.js$", "").replaceAll("\\.jsx$", "").replaceAll("\\.tsx$", "");
     }
 
     /**
@@ -140,7 +143,7 @@ public class Json2ts {
      * @return
      */
     private static String getAttributesByKey(JSONObject json, String key) {
-        if (key.equals("eventExtData"))  {
+        if (key.equals("eventExtData")) {
             System.out.println("");
         }
         StringBuilder builder = new StringBuilder();
@@ -168,12 +171,12 @@ public class Json2ts {
             builder.append(lineSeparator);
         } else if (object instanceof JSONObject) {
             //if (((JSONObject) object).length() != 0) {
-                builder.append(StringUtils.repeatStr(defaultSpace, 2));
-                builder.append(defaultSpace);
-                builder.append(key).append(":");
-                builder.append(defaultSpace);
-                builder.append(captureStringLeaveUnderscore(key));
-                builder.append(lineSeparator);
+            builder.append(StringUtils.repeatStr(defaultSpace, 2));
+            builder.append(defaultSpace);
+            builder.append(key).append(":");
+            builder.append(defaultSpace);
+            builder.append(captureStringLeaveUnderscore(key));
+            builder.append(lineSeparator);
             //}
         } else if (object instanceof JSONArray) {
             if (((JSONArray) object).length() != 0) {

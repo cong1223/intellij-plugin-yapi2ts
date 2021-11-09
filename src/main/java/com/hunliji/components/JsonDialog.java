@@ -3,6 +3,7 @@ package com.hunliji.components;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hunliji.ConvertBridge;
+import com.hunliji.config.ConfigPersistence;
 import com.hunliji.pojo.ReqQuery;
 import com.hunliji.pojo.ReqResponse;
 import com.hunliji.pojo.YapiResponse;
@@ -38,17 +39,12 @@ public class JsonDialog extends JFrame {
         this.editor = editor;
     }
 
-    private void onCancel() {
-        dispose();
-    }
-
-
     public void show() {
         // 创建 JFrame 实例
         this.frame = new JFrame("yapi2ts");
         frame.setSize(500, 200);
         frame.setLocationRelativeTo(frame.getOwner());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         /* 创建面板
          * 我们可以创建多个面板并在 JFrame 中指定位置
@@ -90,13 +86,13 @@ public class JsonDialog extends JFrame {
         panel.add(linkLTextField);
 
         // 生成响应体types
-        JButton typesButton = new JButton("生成响应体类型");
-        typesButton.setBounds(10, 80, 180, 35);
+        JButton typesButton = new JButton("generate response types");
+        typesButton.setBounds(10, 80, 200, 35);
         typesButton.addActionListener(e -> onTransformTypes("res"));
         panel.add(typesButton);
 
         // 生成请求体types
-        JButton codesButton = new JButton("生成请求体类型");
+        JButton codesButton = new JButton("generate request types");
         codesButton.setBounds(10, 120, 200, 35);
         codesButton.addActionListener(e -> onTransformTypes("req"));
         panel.add(codesButton);
@@ -124,7 +120,13 @@ public class JsonDialog extends JFrame {
         if (matcher.find()) {
             String projectId = matcher.group(1);
             String id = matcher.group(2);
-            String jsonStr = YapiRequest.getInterfaceData(id, projectId);
+            String token = null;
+            try {
+                token = ConfigPersistence.getInstance().getTokenByProjectId(this.project, Integer.parseInt(projectId));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String jsonStr = YapiRequest.getInterfaceData(id, token);
             ObjectMapper mapper = new ObjectMapper();
             try {
                 if (type.equals("res")) {
@@ -165,6 +167,8 @@ public class JsonDialog extends JFrame {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        } else {
+            Toast.make(this.project, MessageType.ERROR, "请输入正确的yapi接口详情链接地址");
         }
     }
 

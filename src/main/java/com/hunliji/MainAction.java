@@ -29,7 +29,10 @@ public class MainAction extends AnAction {
         final VirtualFile file = getVirtualFiles(e);
         if (getEventProject(e) != null && file != null) {
             final FileType fileType = file.getFileType();
-            return FileTypeManager.getInstance().getStdFileType("TypeScript").equals(fileType) || StdFileTypes.JS.equals(fileType);
+            return fileType.toString().contains("JSXHarmonyFileType")
+                    || fileType.toString().contains("TypeScriptJSXFileType")
+                    || FileTypeManager.getInstance().getStdFileType("TypeScript").equals(fileType)
+                    || StdFileTypes.JS.equals(fileType);
         }
         return false;
     }
