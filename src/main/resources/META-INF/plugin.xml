@@ -2,22 +2,36 @@
 <idea-plugin>
     <id>com.github.cong1223.intellijpluginyapi2ts</id>
     <name>yapi2ts</name>
-    <vendor>cong_mang</vendor>
+    <vendor email="cong_mang@hunliji.com" url="http://git.hljnbw.cn/WEB_GROUP/intellij-plugin-yapi2ts.git">cong_mang</vendor>
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
 
-    <description>
-    yapi是根据接口文档详情地址一键生成接口数据ts类型的工具
+    <description><![CDATA[
+    yapi is a tool to generate interface data ts type with one click according to the detailed address of the interface document<br/>
 
-    Features:
+    中文:<br/>
+    yapi是根据接口文档详情地址一键生成接口数据ts类型的工具<br/>
+
+    Features:<br/>
+    <ul>
+        <li>Generate ts type code according to the link address</li>
+    </ul>
+    <br/>
+    功能:
     <ul>
         <li>根据链接地址生成ts类型代码</li>
     </ul>
-
+    <br/>
     Todo:
+    <ul>
+        <li>Generate axios business request code according to the link address</li>
+    </ul>
+    <br/>
+    待办:
     <ul>
         <li>根据链接地址生成axios业务请求代码</li>
     </ul>
+    ]]>
     </description>
 
     <actions>

@@ -2,13 +2,35 @@
 <a href="https://www.jetbrains.com/webstorm"><img src="https://cdn.jsdelivr.net/gh/cong1223/cloudimg@master/img/20211109162916.png" width = "10%" /></a><br/>
 [![](https://badgen.net/badge/yapi2ts/v1/f2a)](http://git.hljnbw.cn/WEB_GROUP/intellij-plugin-yapi2ts.git)
 
+<!-- Plugin description -->
+### description：
+
+yapi is a tool to generate interface data ts type with one click according to the detailed address of the interface document
+
+### 描述：
+
+yapi是根据接口文档详情地址一键生成接口数据ts类型的工具
+
+### Features：
+
+- Generate ts type code according to the link address
+
+功能：
+
+- 根据链接地址生成ts类型代码
+
+### Todo:
+
+- Generate axios business request code according to the link address
+
+### 待办：
+
+- 根据链接地址生成axios业务请求代码
+<!-- Plugin description end -->
+
 ## Template ToDo list
 - [x] 根据yapi文档接口详情链接一键生成ts类型代码
 - [ ] 一键生成业务请求代码
-
-<!-- Plugin description -->
-    yapi是根据接口文档详情地址一键生成接口数据ts类型和业务请求代码的工具
-<!-- Plugin description end -->
 
 ## 安装
 
