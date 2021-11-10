@@ -1,9 +1,9 @@
 package com.hunliji.components;
 
 import com.hunliji.config.ConfigPersistence;
+import com.hunliji.config.MyPersistenceConfiguration;
 import com.hunliji.dto.ConfigDTO;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SearchableConfigurable;
+import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.ToolbarDecorator;
@@ -20,22 +20,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 
 /**
  * 配置界面
  */
-public class ApplicationSettingsConfigurable implements SearchableConfigurable {
-
-    private ConfigPersistence configPersistence = ConfigPersistence.getInstance();
+public class ApplicationSettingsConfigurable implements Configurable {
+    protected MyPersistenceConfiguration config;
     private JBTable table;
-
-    @NotNull
-    @Override
-    public String getId() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
-    }
 
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
@@ -43,7 +35,12 @@ public class ApplicationSettingsConfigurable implements SearchableConfigurable {
         return "yapi2ts";
     }
 
-    private List<ConfigDTO> configDTOS = configPersistence.getConfigs();
+    private List<ConfigDTO> newConfigDTOS;
+
+    public ApplicationSettingsConfigurable() {
+        config = ConfigPersistence.getInstance().getState();
+        newConfigDTOS = new ArrayList<>(config.getConfigs());
+    }
 
     @NotNull
     @Override
@@ -69,54 +66,62 @@ public class ApplicationSettingsConfigurable implements SearchableConfigurable {
                 String projectId = envAddView.getProjectId();
                 String projectToken = envAddView.getProjectToken();
                 ConfigDTO configDTO = new ConfigDTO(Integer.parseInt(projectId), projectToken, projectName);
-                if (configDTOS.contains(configDTO)) {
+                if (config.getConfigs().contains(configDTO)) {
                     //已存在弹出警告
                     Messages.showMessageDialog("不能添加重复的项目", "Error", Messages.getInformationIcon());
                     return;
                 }
-                configDTOS.add(configDTO);
-                configPersistence.setConfigs(configDTOS);
+                newConfigDTOS.add(configDTO);
             }
         }
     }
 
     private void removeAction() {
        int row = this.table.getSelectedRow();
-        List<ConfigDTO> newConfigDTOS = new ArrayList<>();
-        for (int i = 0; i < configDTOS.size(); i++) {
+        List<ConfigDTO> afterDeleteConfigDTOS = new ArrayList<>();
+        for (int i = 0; i < newConfigDTOS.size(); i++) {
             if (i != row) {
-                newConfigDTOS.add(configDTOS.get(i));
+                afterDeleteConfigDTOS.add(newConfigDTOS.get(i));
             }
         }
-        configDTOS = newConfigDTOS;
-        table.setModel(new ListTableModel<>(getColumnInfo(), configDTOS));
-        configPersistence.setConfigs(configDTOS);
+        newConfigDTOS = afterDeleteConfigDTOS;
+        table.setModel(new ListTableModel<>(getColumnInfo(), newConfigDTOS));
+    }
+
+    public boolean judgeEqual(List<ConfigDTO> list1, List<ConfigDTO> list2) {
+        if (list1.size() != list2.size()) {
+            return false;
+        }
+        for (int i = 0; i < list1.size(); i++) {
+            ConfigDTO dataMapping1 = list1.get(i);
+            ConfigDTO dataMapping2 = list2.get(i);
+            if (!dataMapping1.getToken().equals(dataMapping2.getToken())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean isModified() {
-        if (configPersistence.getConfigs() == null) {
-            return true;
-        }
-        //当用户修改配置参数后，在点击“OK”“Apply”按钮前，框架会自动调用该方法，判断是否有修改，进而控制按钮“OK”“Apply”的是否可用。
-        return configDTOS.size() == configPersistence.getConfigs().size();
+        return !judgeEqual(this.newConfigDTOS, config.getConfigs());
     }
 
     @Override
-    public void apply() throws ConfigurationException {
-        configPersistence.setConfigs(configDTOS);
+    public void apply() {
+        config.setConfigs(newConfigDTOS);
     }
 
     public JBTable createTable() {
         ColumnInfo<Object, Object>[] columns = getColumnInfo();
-        ListTableModel<ConfigDTO> model = new ListTableModel<>(columns, this.configDTOS);
+        ListTableModel<ConfigDTO> model = new ListTableModel<>(columns, newConfigDTOS);
         this.table = new JBTable(model) {
             @Override
             public Object getValueAt(int row, int column) {
-                if (configDTOS.isEmpty()) {
+                if (newConfigDTOS.isEmpty()) {
                     return StringUtils.EMPTY;
                 }
-                ConfigDTO configDTO = configDTOS.get(row);
+                ConfigDTO configDTO = newConfigDTOS.get(row);
                 if (configDTO == null) {
                     return StringUtils.EMPTY;
                 }

@@ -7,6 +7,11 @@ public class ConfigDTO {
     private Integer projectId;
     private String token;
     private String cname;
+
+    // 不要删这个无参构造,不然保存配置的时候报错
+    public ConfigDTO() {
+    }
+
     public ConfigDTO(Integer projectId, String token, String cname) {
         this.projectId = projectId;
         this.token = token;

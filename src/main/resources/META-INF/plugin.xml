@@ -54,6 +54,11 @@
     <!--settings-->
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable parentId="tools" instance="com.hunliji.components.ApplicationSettingsConfigurable"
-                                 id="com.hunliji.components.ApplicationSettingsConfigurable" displayName="yapi Settings"/>
+                                 id="com.hunliji.components.ApplicationSettingsConfigurable" displayName="Yapi Settings"/>
+        <!-- applicationService 这个是插件配置文件的持久化 -->
+        <!--<applicationService serviceImplementation="com.hunliji.config.ConfigPersistence" order="first"/>-->
+        <!-- applicationService 这个是插件配置文件的持久化 -->
+        <applicationService serviceInterface="com.hunliji.config.ConfigPersistence"
+                            serviceImplementation="com.hunliji.config.ConfigPersistence"/>
     </extensions>
 </idea-plugin>
