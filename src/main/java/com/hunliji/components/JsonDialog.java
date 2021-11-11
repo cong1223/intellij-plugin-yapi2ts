@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,30 +71,39 @@ public class JsonDialog extends JFrame {
         panel.setLayout(null);
 
         // 创建 JLabel
-        JLabel userLabel = new JLabel("link url:");
+        JLabel userLabel = new JLabel("接口文档地址:");
         /* 这个方法定义了组件的位置。
          * setBounds(x, y, width, height)
          * x 和 y 指定左上角的新位置，由 width 和 height 指定新的大小。
          */
-        userLabel.setBounds(10, 20, 50, 25);
+        userLabel.setBounds(10, 20, 100, 25);
         panel.add(userLabel);
 
         /*
          * 创建文本域用于用户输入
          */
         linkLTextField = new JTextField(20);
-        linkLTextField.setBounds(80, 20, 250, 25);
+        linkLTextField.setBounds(10, 50, 380, 25);
         panel.add(linkLTextField);
+
+        /*
+         * 提示文案
+         */
+        // 创建 JLabel
+        JLabel tipLabel = new JLabel("提示: 生成的代码将会插入到光标所在位置");
+        tipLabel.setForeground(Color.GRAY);
+        tipLabel.setBounds(10, 80, 400, 25);
+        panel.add(tipLabel);
 
         // 生成响应体types
         JButton typesButton = new JButton("generate response types");
-        typesButton.setBounds(10, 80, 200, 35);
+        typesButton.setBounds(10, 120, 200, 35);
         typesButton.addActionListener(e -> onTransformTypes("res"));
         panel.add(typesButton);
 
         // 生成请求体types
         JButton codesButton = new JButton("generate request types");
-        codesButton.setBounds(10, 120, 200, 35);
+        codesButton.setBounds(220, 120, 200, 35);
         codesButton.addActionListener(e -> onTransformTypes("req"));
         panel.add(codesButton);
 
@@ -134,7 +144,7 @@ public class JsonDialog extends JFrame {
                     // 字符串转对象
                     yapiResponse = mapper.readValue(jsonStr, YapiResponse.class);
                     if (yapiResponse.getErrcode() != 0) {
-                        Toast.make(this.project, MessageType.ERROR, yapiResponse.getErrmsg());
+                        Toast.make(this.project, MessageType.ERROR, "接口出错: " + yapiResponse.getErrmsg());
                         return;
                     }
                     String resSchemaStr = yapiResponse.getData().getResBody();
@@ -146,7 +156,7 @@ public class JsonDialog extends JFrame {
                     // 字符串转对象
                     yapiResponse = mapper.readValue(jsonStr, ReqResponse.class);
                     if (yapiResponse.getErrcode() != 0) {
-                        Toast.make(this.project, MessageType.ERROR, yapiResponse.getErrmsg());
+                        Toast.make(this.project, MessageType.ERROR, "接口出错: " + yapiResponse.getErrmsg());
                         return;
                     }
                     if (yapiResponse.getData().getMethod().equalsIgnoreCase("get")) {
@@ -176,7 +186,7 @@ public class JsonDialog extends JFrame {
                 e.printStackTrace();
             }
         } else {
-            Toast.make(this.project, MessageType.ERROR, "请输入正确的yapi接口详情链接地址");
+            Toast.make(this.project, MessageType.ERROR, "请输入有效的yapi文档地址");
         }
     }
 

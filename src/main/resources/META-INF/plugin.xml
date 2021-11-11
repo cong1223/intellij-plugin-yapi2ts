@@ -35,6 +35,11 @@
     </description>
 
     <change-notes><![CDATA[
+      <h3>v1.0.3 update</h3>
+      <ul>
+          <li>handle http request error catch</li>
+          <li>optimize the toast message and dialog tips</li>
+      </ul>
       <h3>v1.0.2 update</h3>
       <ul>
           <li>Fix: token can not find in settings</li>
@@ -54,7 +59,7 @@
         <action id="com.hunliji.MainAction" class="com.hunliji.MainAction" text="yapi2ts" icon="/icon/hunliji.png">
 
             <!--tool工具栏-->
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
 
             <!--快捷键-->
             <!--<keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>-->
