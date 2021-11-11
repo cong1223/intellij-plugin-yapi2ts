@@ -133,6 +133,10 @@ public class JsonDialog extends JFrame {
                     YapiResponse yapiResponse = null;
                     // 字符串转对象
                     yapiResponse = mapper.readValue(jsonStr, YapiResponse.class);
+                    if (yapiResponse.getErrcode() != 0) {
+                        Toast.make(this.project, MessageType.ERROR, yapiResponse.getErrmsg());
+                        return;
+                    }
                     String resSchemaStr = yapiResponse.getData().getResBody();
                     String responseStr = new SchemeHandler().parseYapiSchema(resSchemaStr);
                     ConvertBridge convertBridge = new ConvertBridge(responseStr, this.project, this.editor);
@@ -141,6 +145,10 @@ public class JsonDialog extends JFrame {
                     ReqResponse yapiResponse = null;
                     // 字符串转对象
                     yapiResponse = mapper.readValue(jsonStr, ReqResponse.class);
+                    if (yapiResponse.getErrcode() != 0) {
+                        Toast.make(this.project, MessageType.ERROR, yapiResponse.getErrmsg());
+                        return;
+                    }
                     if (yapiResponse.getData().getMethod().equalsIgnoreCase("get")) {
                         List<ReqQuery> reqQueryList = yapiResponse.getData().getReqQuery();
                         Map<String, String> map = new HashMap<>();
