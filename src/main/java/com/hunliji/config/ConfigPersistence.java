@@ -49,7 +49,7 @@ public class ConfigPersistence implements PersistentStateComponent<MyPersistence
             String token = null;
         };
         configDTOS.forEach(configDTO -> {
-            if (configDTO.getProjectId() == projectId) {
+            if (configDTO.getProjectId().equals(projectId)) {
                 ref.token = configDTO.getToken();
             }
         });

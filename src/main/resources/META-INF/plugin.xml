@@ -34,6 +34,22 @@
     ]]>
     </description>
 
+    <change-notes><![CDATA[
+      <h3>v1.0.2 update</h3>
+      <ul>
+          <li>Fix: token can not find in settings</li>
+      </ul>
+      <h3>v1.0.1 update</h3>
+      <ul>
+          <li>Fix: persistenceConfig does not take effect</li>
+      </ul>
+      <h3>v1.0.0 first version</h3>
+      <ul>
+          <li>generate ts types</li>
+      </ul>
+    ]]>
+    </change-notes>
+
     <actions>
         <action id="com.hunliji.MainAction" class="com.hunliji.MainAction" text="yapi2ts" icon="/icon/hunliji.png">
 
