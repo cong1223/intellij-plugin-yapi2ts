@@ -35,6 +35,12 @@
     </description>
 
     <change-notes><![CDATA[
+      <h3>v1.0.4 update</h3>
+      <ul>
+          <li>fix: ResponseData fields complete</li>
+          <li>change logo</li>
+      </ul>
+      <h3>v1.0.2 update</h3>
       <h3>v1.0.3 update</h3>
       <ul>
           <li>handle http request error catch</li>
@@ -56,7 +62,7 @@
     </change-notes>
 
     <actions>
-        <action id="com.hunliji.MainAction" class="com.hunliji.MainAction" text="yapi2ts" icon="/icon/hunliji.png">
+        <action id="com.hunliji.MainAction" class="com.hunliji.MainAction" text="yapi2ts" icon="/icon/logo.png">
 
             <!--tool工具栏-->
             <add-to-group group-id="ToolsMenu" anchor="last"/>
