@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.github.cong1223.intellijpluginyapi2ts</id>
     <name>yapi2ts</name>
-    <vendor email="cong_mang@hunliji.com" url="http://git.hljnbw.cn/WEB_GROUP/intellij-plugin-yapi2ts.git">cong_mang</vendor>
+    <vendor email="goastwang@gmail.com" url="https://github.com/cong1223/intellij-plugin-yapi2ts">cong_wang</vendor>
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
 
@@ -62,7 +62,7 @@
     </change-notes>
 
     <actions>
-        <action id="com.hunliji.MainAction" class="com.hunliji.MainAction" text="yapi2ts" icon="/icon/logo.png">
+        <action id="com.blocksec.MainAction" class="com.blocksec.MainAction" text="yapi2ts" icon="/icon/logo.png">
 
             <!--tool工具栏-->
             <add-to-group group-id="ToolsMenu" anchor="last"/>
@@ -80,12 +80,12 @@
 
     <!--settings-->
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable parentId="tools" instance="com.hunliji.components.ApplicationSettingsConfigurable"
-                                 id="com.hunliji.components.ApplicationSettingsConfigurable" displayName="Yapi Settings"/>
+        <applicationConfigurable parentId="tools" instance="com.blocksec.components.ApplicationSettingsConfigurable"
+                                 id="com.blocksec.components.ApplicationSettingsConfigurable" displayName="Yapi Settings"/>
         <!-- applicationService 这个是插件配置文件的持久化 -->
-        <!--<applicationService serviceImplementation="com.hunliji.config.ConfigPersistence" order="first"/>-->
+        <!--<applicationService serviceImplementation="com.blocksec.config.ConfigPersistence" order="first"/>-->
         <!-- applicationService 这个是插件配置文件的持久化 -->
-        <applicationService serviceInterface="com.hunliji.config.ConfigPersistence"
-                            serviceImplementation="com.hunliji.config.ConfigPersistence"/>
+        <applicationService serviceInterface="com.blocksec.config.ConfigPersistence"
+                            serviceImplementation="com.blocksec.config.ConfigPersistence"/>
     </extensions>
 </idea-plugin>

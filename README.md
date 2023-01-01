@@ -45,8 +45,8 @@ yapi是根据接口文档详情地址一键生成接口数据ts类型的工具
 1. 配置yapi文档项目的token
    ![](https://qnm.hunliji.com/Fo6wg9gECcIn_ZncVmwZSvljUCPz)
 2. 在需要生成类型文件的js/ts/jsx/tsx文件中打开tools -> yapi2ts 或者 右键文件打开菜单,选中yapi2ts打开工具弹窗
-   ![](https://cdn.jsdelivr.net/gh/cong1223/cloudimg@master/img/20211109175927.png)
-   ![](https://cdn.jsdelivr.net/gh/cong1223/cloudimg@master/img/20211109180108.png)
+   ![](https://picgo-cloudimg.oss-cn-hangzhou.aliyuncs.com/img/202301011533894.jpg)
+   ![](https://picgo-cloudimg.oss-cn-hangzhou.aliyuncs.com/img/202301011533892.jpg)
 3. 输入接口详情链接地址,选择生成请求体类型还是返回数据类型
    ![](https://cdn.jsdelivr.net/gh/cong1223/cloudimg@master/img/20211109180242.png)
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
