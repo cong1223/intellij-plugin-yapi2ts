@@ -179,12 +179,6 @@ public class JsonDialog extends JFrame {
                 this.frame.setVisible(false);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (ScriptException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         } else {
             Toast.make(this.project, MessageType.ERROR, "请输入有效的yapi文档地址");

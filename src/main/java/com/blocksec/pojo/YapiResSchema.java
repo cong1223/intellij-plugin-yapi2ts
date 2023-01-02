@@ -11,19 +11,19 @@ import java.util.Map;
  */
 public class YapiResSchema {
     private String $schema;
-    private Map<String, Object> properties;
-    private Map<String, Object> items;
+    private YapiResSchema properties;
+    private YapiResSchema items;
     private SchemaTypeEnum type;
 
     public String get$schema() {
         return $schema;
     }
 
-    public Map<String, Object> getProperties() {
+    public YapiResSchema getProperties() {
         return properties;
     }
 
-    public Map<String, Object> getItems() {
+    public YapiResSchema getItems() {
         return items;
     }
 

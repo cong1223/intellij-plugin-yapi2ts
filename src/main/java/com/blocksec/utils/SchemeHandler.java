@@ -1,53 +1,80 @@
 package com.blocksec.utils;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * yapi返回模型数据处理成实际接口返回数据json模型类
  */
 public class SchemeHandler {
-    public String parseYapiSchema(String resSchemaStr) throws ClassNotFoundException, ScriptException, NoSuchMethodException {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("javascript");
-        try {
-            engine.eval("function parseYapiSchema(data) {\n" +
-                    "    var res = JSON.parse(data)\n" +
-                    "\n" +
-                    "    function parseItem(item) {\n" +
-                    "        switch (item.type) {\n" +
-                    "            case 'object':\n" +
-                    "                var obj = {}\n" +
-                    "                for (var key in item.properties) {\n" +
-                    "                    obj[key] = parseItem(item.properties[key])\n" +
-                    "                }\n" +
-                    "                return obj\n" +
-                    "            case 'array':\n" +
-                    "                return [parseItem(item.items)]\n" +
-                    "            case 'boolean':\n" +
-                    "                return true\n" +
-                    "            case 'string':\n" +
-                    "                return ''\n" +
-                    "            case 'integer':\n" +
-                    "                return 1\n" +
-                    "            case 'number':\n" +
-                    "                return 1\n" +
-                    "            default:\n" +
-                    "                return null\n" +
-                    "        }\n" +
-                    "    }\n" +
-                    "    return JSON.stringify(parseItem(res))\n" +
-                    "}");
-        } catch (ScriptException e) {
-            e.printStackTrace();
+    /**
+     * 暴露方法 获取最终json字符串
+     * @param jsonStr
+     * @return
+     */
+    public static String parseYapiSchema(String jsonStr){
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        JSONObject result = handleObject(jsonObject);
+        return result.toJSONString();
+    }
+
+    /**
+     * 处理对象
+     * @param object
+     * @return
+     */
+    private static JSONObject handleObject(JSONObject object){
+        JSONObject result = new JSONObject();
+
+        String type = object.getString("type");
+        JSONObject properties = object.getJSONObject("properties");
+        for (String property : properties.keySet()) {
+            JSONObject childObject = properties.getJSONObject(property);
+            String childType = childObject.getString("type");
+
+            if("object".equals(childType)){
+                JSONObject jsonObject = handleObject(childObject);
+                result.put(property,jsonObject);
+                continue;
+            }
+            if("array".equals(childType)){
+                JSONArray jsonArray = handleArray(childObject);
+                result.put(property,jsonArray);
+                continue;
+            }
+
+            Object o = handleBasicObject(childType);
+            result.put(property,o);
         }
-        if (engine instanceof Invocable) {
-            Invocable in = (Invocable) engine;
-            String resultStr = (String) in.invokeFunction("parseYapiSchema", resSchemaStr);
-            return resultStr;
+
+        return result;
+    }
+
+
+    /**
+     * 处理数组
+     * @param object
+     * @return
+     */
+    private static JSONArray handleArray(JSONObject object){
+        JSONObject item = object.getJSONObject("items");
+        JSONObject jsonObject = handleObject(item);
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(jsonObject);
+        return jsonArray;
+    }
+
+    /**
+     * 转换基本数据类型
+     * @param type
+     * @return
+     */
+    private static Object handleBasicObject(String type){
+        switch (type){
+            case "number" :
+            case "integer" : return 1;
+            case "boolean" : return false;
+            default : return "";
         }
-        return null;
     }
 }
