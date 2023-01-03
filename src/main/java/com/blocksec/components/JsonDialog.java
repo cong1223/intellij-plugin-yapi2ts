@@ -120,23 +120,39 @@ public class JsonDialog extends JFrame {
      */
     private void onTransformTypes(String type) {
         String url = linkLTextField.getText();
+        String baseUrl = "";
+        Pattern patternUrl = Pattern.compile("^(https?)://([^:/]+)(:\\d+)?(/.*)?$");
+        Matcher matcherUrl = patternUrl.matcher(url);
+        if (matcherUrl.matches()) {
+            String protocol = matcherUrl.group(1);
+            String domain = matcherUrl.group(2);
+            String port = matcherUrl.group(3);
 
-        if (url.equals("")) {
-            Toast.make(this.project, MessageType.WARNING, "url cannot be empty!");
+            baseUrl = protocol + "://" + domain;
+            if (port != null) {
+                baseUrl += port;
+            }
+        }
+        if (baseUrl.equals("")) {
+            Toast.make(this.project, MessageType.ERROR, "输入的链接格式有误！");
             return;
         }
-        Pattern pattern = Pattern.compile("project\\/(\\d+)\\/interface\\/api\\/(\\d+)");
-        Matcher matcher = pattern.matcher(url);
-        if (matcher.find()) {
-            String projectId = matcher.group(1);
-            String id = matcher.group(2);
+        if (url.equals("")) {
+            Toast.make(this.project, MessageType.WARNING, "输入的链接不能为空！");
+            return;
+        }
+        Pattern patternParams = Pattern.compile("project\\/(\\d+)\\/interface\\/api\\/(\\d+)");
+        Matcher matcherParams = patternParams.matcher(url);
+        if (matcherParams.find()) {
+            String projectId = matcherParams.group(1);
+            String id = matcherParams.group(2);
             String token = null;
             try {
                 token = ConfigPersistence.getInstance().getTokenByProjectId(this.project, Integer.parseInt(projectId));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String jsonStr = YapiRequest.getInterfaceData(id, token);
+            String jsonStr = YapiRequest.getInterfaceData(baseUrl, id, token);
             ObjectMapper mapper = new ObjectMapper();
             try {
                 if (type.equals("res")) {
