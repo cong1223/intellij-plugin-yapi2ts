@@ -1,6 +1,6 @@
 # intellij-plugin-yapi2ts
 <a href="https://www.jetbrains.com/webstorm"><img src="https://cdn.jsdelivr.net/gh/cong1223/cloudimg@master/img/20211109162916.png" width = "10%" /></a><br/>
-[![](https://badgen.net/badge/yapi2ts/v1/f2a)](http://git.hljnbw.cn/WEB_GROUP/intellij-plugin-yapi2ts.git)
+[![](https://badgen.net/badge/yapi2ts/v2/f2a)](https://github.com/cong1223/intellij-plugin-yapi2ts)
 
 <!-- Plugin description -->
 ### description：
